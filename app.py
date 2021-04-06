@@ -9,21 +9,22 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+class TodoList(db.Model):
+      __tablename__ = 'todolists'
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(), nullable=False)
+  todos = db.relationship('Todo', backref='list', lazy=True)
 class Todo(db.Model):
   __tablename__ = 'todos'
   id = db.Column(db.Integer, primary_key=True)
   description = db.Column(db.String(), nullable=False)
-  completed = db.Column(db.Boolean, nullable=False)
+  completed = db.Column(db.Boolean, nullable=False, default=False)
   list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=False)
 
   def __repr__(self):
-    return f'<Todo {self.id} {self.description}>'
+    return f'<Todo {self.id} {self.description}, list {self.list_id}>'
 
-class TodoList(db.Model):
-  __tablename__ = 'todolists'
-  id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(), nullable=False)
-  todos = db.relationship('Todo', backref='list', lazy=True)
+
 
 
 @app.route('/todos/<todo_id>', methods=['DELETE'])
