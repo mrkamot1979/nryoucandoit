@@ -23,9 +23,17 @@
         cursor: pointer;
         font-size: 20px;
       }
+      ul {
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
+    <ul id="lists">
+      {% for list in lists %}
+      <li>{{ list.name }}</li>
+      {% endfor %}
+    </ul>
     <form id="form" method="post" action="/todos/create">
       <input type="text" id="description" name="description" />
       <input type="submit" value="Create" />

@@ -81,7 +81,9 @@ def set_completed_todo(todo_id):
 
 @app.route('/lists/<list_id>')
 def get_list_todos(list_id):
-  return render_template('index.html', todos=Todo.query.filter_by(list_id=list_id).order_by('id').all()
+  return render_template('index.html', 
+    lists=TodoList.query.all(),
+    todos=Todo.query.filter_by(list_id=list_id).order_by('id').all()
   )
 
 
